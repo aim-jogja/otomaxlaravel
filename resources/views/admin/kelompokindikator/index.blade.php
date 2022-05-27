@@ -28,7 +28,13 @@
                     <tr>
                         <td align="center">{{ $i->id }}</td>
                         <td>{{ $i->pertanyaan }}</td>
-                        <td>{{ $i->indikators->nama_indikator }}</td>
+                        <td>
+                            <ul>
+                            @foreach($i->indikators as $indikator)
+                                <li>{{ $indikator->nama_indikator }}</li>
+                            @endforeach
+                            </ul>
+                        </td>
                         <td align="center">
                         <div class="btn-group" role="group" aria-label="Basic example">
                             <a href="{{ route('admin.kelompokindikator.edit', ['id' => $i->id]) }}" class="btn btn-warning btn-sm">

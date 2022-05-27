@@ -15,11 +15,8 @@ class CreateKelompokIndikatorsTable extends Migration
     {
         Schema::create('kelompok_indikators', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("id_indikator");
             $table->string("pertanyaan");
             $table->timestamps();
-
-            $table->foreign("id_indikator")->references("id")->on("indikators")->onDelete("cascade");
         });
     }
 

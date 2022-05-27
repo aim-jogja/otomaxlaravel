@@ -9,12 +9,10 @@
                 <input required type="text" class="form-control" name="pertanyaan">
             </div>
             <div class="form-group" style="margin-bottom: 10px;">
-                <label for="indikator">Indikator</label> <br/>
-                <select name="indikator" id="indikator" class="form-control">
-                    @foreach($indikator as $i)
-                        <option value="{{ $i->id }}">{{ $i->nama_indikator }}</option>
-                    @endforeach
-                </select>
+                <label for="nama">Indikator</label><br/>
+                @foreach($indikator as $i)
+                    <input type="checkbox" name="indikator[]" id="" value="{{ $i->id }}">{{ $i->nama_indikator }}<br/>
+                @endforeach
             </div>
         <div class="text-right" >
             <button type="submit" class="btn btn-success text-right">Simpan</button>

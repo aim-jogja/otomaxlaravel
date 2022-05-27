@@ -9,14 +9,15 @@ class Indikator extends Model
 {
     use HasFactory;
     protected $fillable = [
-        "nama_indikator"
+        "nama_indikator",
+        "id_kelompok"
     ];
     
     public function produkss(){
         return $this->belongsToMany(Produk::class, "indikator_produk", "id_indikator", "id_produk");
     }
 
-    public function kelompok(){
-        return $this->hasMany(KelompokIndikator::class, "id_indikator");
+    public function kelompoks(){
+        return $this->belongsTo(KelompokIndikator::class, "id_kelompok");
     }
 }

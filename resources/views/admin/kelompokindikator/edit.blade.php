@@ -9,12 +9,18 @@
                 <input required type="text" class="form-control" name="pertanyaan" value="{{ $kelompokindikator->pertanyaan }}">
             </div>
             <div class="form-group" style="margin-bottom: 10px;">
-                <label for="nama">Indikator</label>
-                <select class="form-control" name="indikator" id="">
-                    @foreach($indikator as $i)
-                        <option value="{{ $i->id }}">{{ $i->nama_indikator }}</option>
-                    @endforeach
-                </select>
+                <label for="nama">Indikator</label><br/>
+                @foreach($indikator as $i)
+                    <input type="checkbox" name="indikator[]" id="" value="{{ $i->id }}"
+                    @php
+                        foreach ($kelompokindikator->indikators as $indikator) {
+                            if($indikator->id == $i->id){
+                                echo "checked";
+                            }
+                        }    
+                    @endphp
+                    >{{ $i->nama_indikator }}<br/>
+                @endforeach
             </div>
         <div class="text-right" >
             <button type="submit" class="btn btn-success text-right">Simpan</button>

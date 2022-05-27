@@ -171,12 +171,14 @@ class DashboardController extends Controller
     }
 
     public function addIndikator(){
-        return view('admin.indikator.tambah');
+        $kelompokindikator = KelompokIndikator::all();
+        return view('admin.indikator.tambah', compact(['kelompokindikator']));
     }
 
     public function saveIndikator(Request $req){
         $indikator = Indikator::create([
-            'nama_indikator' => $req->indikator
+            'nama_indikator' => $req->indikator,
+            'id_kelompok' => $req->pertanyaan
         ]);
         
         $indikator->save();
@@ -193,6 +195,7 @@ class DashboardController extends Controller
     public function updateIndikator(Request $req, $id){
         $indikator = Indikator::findOrFail($id);
         $indikator->nama_indikator = $req->nama_indikator;
+        $indikator->id_kelompok = $req->pertanyaan;
         $indikator->save();
 
         return redirect()->route('admin.indexIndikator');
@@ -206,23 +209,27 @@ class DashboardController extends Controller
 
     public function indexKelompokIndikator(){
         $kelompokindikator = KelompokIndikator::paginate(5);
-        $indikator = Indikator::all();
 
-        return view('admin.kelompokindikator.index', compact(['kelompokindikator', 'indikator']));
+        return view('admin.kelompokindikator.index', compact(['kelompokindikator']));
     }
 
     public function addKelompokIndikator(){
         $indikator = Indikator::all();
-
         return view('admin.kelompokindikator.tambah', compact(['indikator']));
     }
 
     public function saveKelompokIndikator(Request $req){
         
         $pertanyaan = KelompokIndikator::create([
-            'pertanyaan' => $req->pertanyaan,
-            'id_indikator' => $req->indikator
+            'pertanyaan' => $req->pertanyaan
         ]);
+        if($req->indikator != NULL){
+            foreach($req->indikator as $i){
+                $indikator = Indikator::findOrFail($i);
+                $indikator->id_kelompok = $pertanyaan->id;
+                $indikator->save();
+            }
+        }
         $pertanyaan->save();
         return redirect()->route('admin.indexKelompokIndikator');
     }
@@ -237,7 +244,13 @@ class DashboardController extends Controller
     public function updateKelompokIndikator(Request $req, $id){
         $kelompokindikator = KelompokIndikator::findOrFail($id);
         $kelompokindikator->pertanyaan = $req->pertanyaan;
-        $kelompokindikator->id_indikator = $req->indikator;
+        if($req->indikator != NULL){
+            foreach($req->indikator as $i){
+                $indikator = Indikator::findOrFail($i);
+                $indikator->id_kelompok = $kelompokindikator->id;
+                $indikator->save();
+            }
+        }
         $kelompokindikator->save();
 
         return redirect()->route('admin.indexKelompokIndikator');
